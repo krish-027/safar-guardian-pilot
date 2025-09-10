@@ -111,7 +111,7 @@ const Layout = () => {
               <Button
                 variant={location.pathname === '/officer' ? 'default' : 'ghost'}
                 onClick={() => navigate('/officer')}
-                className="rounded-none border-b-2 border-transparent py-4 px-0"
+                className="rounded-none border-b-2 border-transparent py-4 px-4"
               >
                 <Shield className="h-4 w-4 mr-2" />
                 Dashboard
