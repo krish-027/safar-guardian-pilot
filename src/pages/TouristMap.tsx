@@ -11,7 +11,13 @@ import {
   Navigation,
   Zap
 } from 'lucide-react';
-import { getStoredData, setStoredData } from '@/lib/mockData';
+import { 
+  readData, 
+  updateTourist, 
+  createAlert, 
+  addStorageListener,
+  getActiveTourist 
+} from '@/lib/storageHelper';
 import { checkGeofenceViolation } from '@/lib/utils/geofence';
 import { Tourist, Alert as AlertType, GeofenceZone } from '@/types';
 import { useToast } from '@/hooks/use-toast';
