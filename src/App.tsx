@@ -7,7 +7,6 @@ import Layout from "./components/Layout";
 import TouristOnboarding from "./pages/TouristOnboarding";
 import TouristMap from "./pages/TouristMap";
 import TouristAlerts from "./pages/TouristAlerts";
-import TouristSettings from "./pages/TouristSettings";
 import OfficerDashboard from "./pages/OfficerDashboard";
 import NotFound from "./pages/NotFound";
 
@@ -24,7 +23,6 @@ const App = () => (
             <Route index element={<TouristOnboarding />} />
             <Route path="map" element={<TouristMap />} />
             <Route path="alerts" element={<TouristAlerts />} />
-            <Route path="settings" element={<TouristSettings />} />
             <Route path="officer" element={<OfficerDashboard />} />
           </Route>
           <Route path="*" element={<NotFound />} />

@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { AlertTriangle, Clock, MapPin, Zap, Shield } from 'lucide-react';
-import { readData, createAlert, getActiveTourist, addStorageListener } from '@/lib/storageHelper';
+import { getStoredData, setStoredData } from '@/lib/mockData';
 import { Alert as AlertType, Tourist } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 

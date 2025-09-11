@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Shield, User, MapPin, AlertTriangle, Settings } from 'lucide-react';
-import { initializeData } from '@/lib/storageHelper';
+import { Shield, User, MapPin, AlertTriangle } from 'lucide-react';
+import { initializeData } from '@/lib/mockData';
 
 const Layout = () => {
   const [currentView, setCurrentView] = useState<'tourist' | 'officer'>('tourist');
@@ -91,22 +91,14 @@ const Layout = () => {
                 <MapPin className="h-4 w-4 mr-2" />
                 Map & Safety
               </Button>
-                <Button
-                  variant={location.pathname === '/alerts' ? 'default' : 'ghost'}
-                  onClick={() => navigate('/alerts')}
-                  className="rounded-none border-b-2 border-transparent py-4 px-0"
-                >
-                  <AlertTriangle className="h-4 w-4 mr-2" />
-                  Alerts
-                </Button>
-                <Button
-                  variant={location.pathname === '/settings' ? 'default' : 'ghost'}
-                  onClick={() => navigate('/settings')}
-                  className="rounded-none border-b-2 border-transparent py-4 px-0"
-                >
-                  <Settings className="h-4 w-4 mr-2" />
-                  Settings
-                </Button>
+              <Button
+                variant={location.pathname === '/alerts' ? 'default' : 'ghost'}
+                onClick={() => navigate('/alerts')}
+                className="rounded-none border-b-2 border-transparent py-4 px-0"
+              >
+                <AlertTriangle className="h-4 w-4 mr-2" />
+                Alerts
+              </Button>
             </div>
           </div>
         </nav>

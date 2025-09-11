@@ -13,8 +13,7 @@ import {
   Download,
   Eye
 } from 'lucide-react';
-import { readData, addStorageListener } from '@/lib/storageHelper';
-import EFirModal from '@/components/EFirModal';
+import { getStoredData } from '@/lib/mockData';
 import { Tourist, Alert as AlertType, DashboardStats } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import jsPDF from 'jspdf';
