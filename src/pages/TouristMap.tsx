@@ -257,7 +257,7 @@ const TouristMap = () => {
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <MapPin className="h-5 w-5" />
-            <span>Himachal Pradesh Safety Map</span>
+            <span>Northeast Safety Map</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -290,7 +290,7 @@ const TouristMap = () => {
                 <div className="text-center space-y-2">
                   <MapPin className="h-12 w-12 text-muted-foreground mx-auto" />
                   <p className="text-muted-foreground">Interactive Mapbox map would appear here</p>
-                  <p className="text-sm text-muted-foreground">Showing Himachal Pradesh with geofence zones</p>
+                  <p className="text-sm text-muted-foreground">Showing Northeast India with geofence zones</p>
                 </div>
                 
                 {/* Simulated elements */}

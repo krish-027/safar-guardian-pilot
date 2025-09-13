@@ -1,35 +1,35 @@
 import { Tourist, Alert, GeofenceZone } from '@/types';
 
-// Himachal Pradesh coordinates
-const HIMACHAL_CENTER = { lat: 31.1048, lng: 77.1734 };
+// Northeast India coordinates
+const NORTHEAST_CENTER = { lat: 26.2006, lng: 92.9376 };
 
 export const geofenceZones: GeofenceZone[] = [
   {
     id: 'zone-1',
-    name: 'Great Himalayan National Park - Restricted Area',
+    name: 'Kaziranga National Park - Restricted Area',
     type: 'restricted',
     coordinates: [
-      [77.3000, 31.5000],
-      [77.3500, 31.5000],
-      [77.3500, 31.5500],
-      [77.3000, 31.5500],
-      [77.3000, 31.5000]
+      [93.3000, 26.5000],
+      [93.7000, 26.5000],
+      [93.7000, 26.8000],
+      [93.3000, 26.8000],
+      [93.3000, 26.5000]
     ],
-    description: 'Protected wildlife sanctuary with limited access',
+    description: 'Protected rhino sanctuary with limited access',
     color: '#E53935'
   },
   {
     id: 'zone-2',
-    name: 'Cliff Trail - High Risk Zone',
+    name: 'Cherrapunji Hills - High Risk Zone',
     type: 'danger',
     coordinates: [
-      [77.1000, 31.0500],
-      [77.1500, 31.0500],
-      [77.1500, 31.1000],
-      [77.1000, 31.1000],
-      [77.1000, 31.0500]
+      [91.7000, 25.2000],
+      [91.8000, 25.2000],
+      [91.8000, 25.3000],
+      [91.7000, 25.3000],
+      [91.7000, 25.2000]
     ],
-    description: 'Steep cliff area prone to landslides',
+    description: 'Heavy rainfall area prone to flash floods',
     color: '#FF9800'
   }
 ];
