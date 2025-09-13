@@ -13,12 +13,35 @@ const TouristAlerts = () => {
   const [currentTourist, setCurrentTourist] = useState<Tourist | null>(null);
 
   useEffect(() => {
-    const tourist = getStoredData<Tourist | null>('current-tourist', null);
+    let tourist = getStoredData<Tourist | null>('current-tourist', null);
+    
+    // If no tourist exists, create a mock one for demo
+    if (!tourist) {
+      tourist = {
+        id: 'demo-tourist-1',
+        fullName: 'Demo Tourist',
+        documentType: 'aadhaar',
+        documentNumber: 'XXXX-XXXX-1234',
+        tripStartDate: new Date().toISOString().split('T')[0],
+        tripEndDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        emergencyContact: '+91-98765-43210',
+        safetyScore: 85,
+        location: { lat: 31.1048, lng: 77.1734 },
+        digitalId: {
+          qrCode: 'demo-qr-code',
+          blockchainHash: 'demo-hash-123456',
+          issuedAt: new Date().toISOString()
+        },
+        alerts: []
+      };
+      setStoredData('current-tourist', tourist);
+    }
+    
     setCurrentTourist(tourist);
     
     const allAlerts = getStoredData<AlertType[]>('smart-safar-alerts', []);
     // Filter alerts for current tourist
-    const touristAlerts = tourist ? allAlerts.filter(alert => alert.touristId === tourist.id) : [];
+    const touristAlerts = allAlerts.filter(alert => alert.touristId === tourist.id);
     setAlerts(touristAlerts);
   }, []);
 
@@ -107,18 +130,7 @@ const TouristAlerts = () => {
     };
   };
 
-  if (!currentTourist) {
-    return (
-      <div className="text-center py-12 space-y-4">
-        <AlertTriangle className="h-16 w-16 text-muted-foreground mx-auto" />
-        <h2 className="text-xl font-semibold">Complete Registration Required</h2>
-        <p className="text-muted-foreground">You need to complete your digital ID registration before viewing your alerts.</p>
-        <Button onClick={() => window.location.href = '/'} variant="authority">
-          Go to Registration
-        </Button>
-      </div>
-    );
-  }
+  // Tourist should always exist now with mock data
 
   return (
     <div className="space-y-6">

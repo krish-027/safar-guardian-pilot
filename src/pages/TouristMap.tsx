@@ -27,13 +27,33 @@ const TouristMap = () => {
   const [showTokenInput, setShowTokenInput] = useState(true);
 
   useEffect(() => {
-    const tourist = getStoredData<Tourist | null>('current-tourist', null);
+    let tourist = getStoredData<Tourist | null>('current-tourist', null);
     const zones = getStoredData<GeofenceZone[]>('smart-safar-geofences', []);
     
-    if (tourist) {
-      setCurrentTourist(tourist);
-      setTouristLocation(tourist.location);
+    // If no tourist exists, create a mock one for demo
+    if (!tourist) {
+      tourist = {
+        id: 'demo-tourist-1',
+        fullName: 'Demo Tourist',
+        documentType: 'aadhaar',
+        documentNumber: 'XXXX-XXXX-1234',
+        tripStartDate: new Date().toISOString().split('T')[0],
+        tripEndDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        emergencyContact: '+91-98765-43210',
+        safetyScore: 85,
+        location: { lat: 31.1048, lng: 77.1734 },
+        digitalId: {
+          qrCode: 'demo-qr-code',
+          blockchainHash: 'demo-hash-123456',
+          issuedAt: new Date().toISOString()
+        },
+        alerts: []
+      };
+      setStoredData('current-tourist', tourist);
     }
+    
+    setCurrentTourist(tourist);
+    setTouristLocation(tourist.location);
     setGeofenceZones(zones);
   }, []);
 
@@ -161,18 +181,7 @@ const TouristMap = () => {
     }
   };
 
-  if (!currentTourist) {
-    return (
-      <div className="text-center py-12 space-y-4">
-        <Shield className="h-16 w-16 text-muted-foreground mx-auto" />
-        <h2 className="text-xl font-semibold">Complete Registration Required</h2>
-        <p className="text-muted-foreground">You need to complete your digital ID registration before accessing the safety map.</p>
-        <Button onClick={() => window.location.href = '/'} variant="authority">
-          Go to Registration
-        </Button>
-      </div>
-    );
-  }
+  // Tourist should always exist now with mock data
 
   return (
     <div className="space-y-6">
