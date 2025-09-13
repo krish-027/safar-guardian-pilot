@@ -163,9 +163,13 @@ const TouristMap = () => {
 
   if (!currentTourist) {
     return (
-      <div className="text-center py-12">
-        <h2 className="text-xl font-semibold mb-4">No Tourist Profile Found</h2>
-        <p className="text-muted-foreground">Please complete registration first.</p>
+      <div className="text-center py-12 space-y-4">
+        <Shield className="h-16 w-16 text-muted-foreground mx-auto" />
+        <h2 className="text-xl font-semibold">Complete Registration Required</h2>
+        <p className="text-muted-foreground">You need to complete your digital ID registration before accessing the safety map.</p>
+        <Button onClick={() => window.location.href = '/'} variant="authority">
+          Go to Registration
+        </Button>
       </div>
     );
   }
