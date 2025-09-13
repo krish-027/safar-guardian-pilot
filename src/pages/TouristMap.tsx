@@ -181,7 +181,17 @@ const TouristMap = () => {
     }
   };
 
-  // Tourist should always exist now with mock data
+  // Show loading state if tourist data isn't ready yet
+  if (!currentTourist) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-center space-y-2">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+          <p className="text-muted-foreground">Loading tourist data...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
