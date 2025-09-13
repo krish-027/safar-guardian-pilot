@@ -16,7 +16,7 @@ import {
 import { getStoredData } from '@/lib/mockData';
 import { Tourist, Alert as AlertType, DashboardStats } from '@/types';
 import { useToast } from '@/hooks/use-toast';
-import jsPDF from 'jspdf';
+
 
 const OfficerDashboard = () => {
   const { toast } = useToast();
@@ -52,61 +52,12 @@ const OfficerDashboard = () => {
     });
   }, []);
 
-  const generateEFIR = (tourist: Tourist) => {
-    const touristAlerts = alerts.filter(alert => alert.touristId === tourist.id);
-    
-    const doc = new jsPDF();
-    
-    // Header
-    doc.setFontSize(20);
-    doc.text('ELECTRONIC FIRST INFORMATION REPORT (E-FIR)', 20, 30);
-    doc.setFontSize(12);
-    doc.text('Smart Safar - Tourist Safety Management System', 20, 40);
-    doc.text('Government of Himachal Pradesh', 20, 50);
-    
-    // Tourist Details
-    doc.setFontSize(14);
-    doc.text('Tourist Information:', 20, 70);
-    doc.setFontSize(10);
-    doc.text(`Name: ${tourist.fullName}`, 20, 80);
-    doc.text(`Document: ${tourist.documentType.toUpperCase()} - ${tourist.documentNumber}`, 20, 90);
-    doc.text(`Tourist ID: ${tourist.id}`, 20, 100);
-    doc.text(`Emergency Contact: ${tourist.emergencyContact}`, 20, 110);
-    doc.text(`Current Safety Score: ${tourist.safetyScore}/100`, 20, 120);
-    doc.text(`Location: ${tourist.location.lat.toFixed(6)}, ${tourist.location.lng.toFixed(6)}`, 20, 130);
-    
-    // Alerts Section
-    doc.setFontSize(14);
-    doc.text('Alert History:', 20, 150);
-    
-    let yPosition = 160;
-    if (touristAlerts.length > 0) {
-      touristAlerts.slice(0, 5).forEach((alert, index) => {
-        doc.setFontSize(10);
-        doc.text(`${index + 1}. ${alert.title} (${alert.severity.toUpperCase()})`, 25, yPosition);
-        doc.text(`   ${alert.description}`, 25, yPosition + 8);
-        doc.text(`   Time: ${new Date(alert.timestamp).toLocaleString()}`, 25, yPosition + 16);
-        doc.text(`   Location: ${alert.location.lat.toFixed(4)}, ${alert.location.lng.toFixed(4)}`, 25, yPosition + 24);
-        doc.text(`   Status: ${alert.resolved ? 'Resolved' : 'Active'}`, 25, yPosition + 32);
-        yPosition += 45;
-      });
-    } else {
-      doc.setFontSize(10);
-      doc.text('No alerts recorded for this tourist.', 25, yPosition);
-    }
-    
-    // Footer
-    doc.setFontSize(8);
-    doc.text(`Generated on: ${new Date().toLocaleString()}`, 20, 280);
-    doc.text('This is a system-generated document from Smart Safar TSMS', 20, 285);
-    
-    // Save the PDF
-    doc.save(`E-FIR_${tourist.fullName.replace(/\s+/g, '_')}_${Date.now()}.pdf`);
-    
-    toast({
-      title: "E-FIR Generated",
-      description: `Electronic FIR for ${tourist.fullName} has been downloaded.`
-    });
+  const [showEFirModal, setShowEFirModal] = useState(false);
+  const [selectedEFirTourist, setSelectedEFirTourist] = useState<Tourist | null>(null);
+
+  const handleEFirClick = (tourist: Tourist) => {
+    setSelectedEFirTourist(tourist);
+    setShowEFirModal(true);
   };
 
   const getTouristAlerts = (touristId: string) => {
@@ -367,7 +318,7 @@ const OfficerDashboard = () => {
                       
                       <Button 
                         size="sm" 
-                        onClick={() => generateEFIR(tourist)}
+                        onClick={() => handleEFirClick(tourist)}
                         variant="authority"
                       >
                         <FileText className="h-4 w-4 mr-1" />
@@ -381,6 +332,50 @@ const OfficerDashboard = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* E-FIR Modal */}
+      <Dialog open={showEFirModal} onOpenChange={setShowEFirModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>E-FIR Generation (Demo)</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="bg-muted/50 p-4 rounded-lg">
+              <p className="text-sm text-muted-foreground mb-3">
+                E-FIR generation is mocked in this prototype. In production this would generate an official PDF report and submit to backend systems.
+              </p>
+              {selectedEFirTourist && (
+                <div className="space-y-2 text-sm">
+                  <div><strong>Tourist:</strong> {selectedEFirTourist.fullName}</div>
+                  <div><strong>Document:</strong> {selectedEFirTourist.documentType.toUpperCase()}: {selectedEFirTourist.documentNumber}</div>
+                  <div><strong>Safety Score:</strong> {selectedEFirTourist.safetyScore}/100</div>
+                  <div><strong>Active Alerts:</strong> {alerts.filter(alert => alert.touristId === selectedEFirTourist.id && !alert.resolved).length}</div>
+                  <div><strong>Generated:</strong> {new Date().toLocaleString()}</div>
+                </div>
+              )}
+            </div>
+            <div className="flex space-x-2">
+              <Button variant="outline" onClick={() => setShowEFirModal(false)} className="flex-1">
+                Close
+              </Button>
+              <Button 
+                variant="default" 
+                onClick={() => {
+                  toast({
+                    title: "Demo E-FIR",
+                    description: "This is a placeholder action for the demo."
+                  });
+                  setShowEFirModal(false);
+                }}
+                className="flex-1"
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Demo Action
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
