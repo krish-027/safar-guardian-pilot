@@ -306,7 +306,7 @@ const OfficerDashboard = () => {
                       
                       <Button 
                         size="sm" 
-                        onClick={() => handleEFirClick(tourist)}
+                        onClick={() => {}}
                         variant="authority"
                       >
                         <FileText className="h-4 w-4 mr-1" />
