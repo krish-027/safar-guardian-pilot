@@ -270,84 +270,34 @@ const TouristMap = () => {
                 className="w-full h-auto rounded-lg shadow-md"
               />
             </div>
-          </div>
-          {showTokenInput ? (
-            <div className="space-y-4 p-8 text-center">
-              <div className="p-4 bg-muted rounded-lg">
-                <h3 className="font-semibold mb-2">Mapbox Integration Required</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  To view the interactive map, please enter your Mapbox public token.
-                  You can get one free at <a href="https://mapbox.com" target="_blank" rel="noopener noreferrer" className="text-primary underline">mapbox.com</a>
-                </p>
-                <div className="flex space-x-2 max-w-md mx-auto">
-                  <input
-                    type="text"
-                    placeholder="Enter Mapbox public token"
-                    value={mapboxToken}
-                    onChange={(e) => setMapboxToken(e.target.value)}
-                    className="flex-1 px-3 py-2 border border-input rounded-md"
-                  />
-                  <Button onClick={handleMapboxTokenSubmit}>
-                    Initialize Map
-                  </Button>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {/* Placeholder Map */}
-              <div className="h-96 bg-muted rounded-lg relative map-container flex items-center justify-center">
-                <div className="text-center space-y-2">
-                  <MapPin className="h-12 w-12 text-muted-foreground mx-auto" />
-                  <p className="text-muted-foreground">Interactive Mapbox map would appear here</p>
-                  <p className="text-sm text-muted-foreground">Showing Northeast India with geofence zones</p>
-                </div>
-                
-                {/* Simulated elements */}
-                <div className="absolute top-4 left-4 space-y-2">
-                  <div className="flex items-center space-x-2 bg-card p-2 rounded shadow">
-                    <div className="w-3 h-3 bg-destructive rounded-full"></div>
-                    <span className="text-xs">Restricted Areas</span>
-                  </div>
-                  <div className="flex items-center space-x-2 bg-card p-2 rounded shadow">
-                    <div className="w-3 h-3 bg-warning rounded-full"></div>
-                    <span className="text-xs">Danger Zones</span>
-                  </div>
-                  <div className="flex items-center space-x-2 bg-card p-2 rounded shadow">
-                    <div className="w-3 h-3 bg-primary rounded-full"></div>
-                    <span className="text-xs">Your Location</span>
-                  </div>
-                </div>
-              </div>
 
-              {/* Movement Controls */}
-              <div className="flex justify-center">
-                <div className="grid grid-cols-3 gap-2 w-32">
-                  <div></div>
-                  <Button size="sm" variant="outline" onClick={() => moveTourist('north')}>
-                    <Navigation className="h-4 w-4 rotate-0" />
-                  </Button>
-                  <div></div>
-                  
-                  <Button size="sm" variant="outline" onClick={() => moveTourist('west')}>
-                    <Navigation className="h-4 w-4 -rotate-90" />
-                  </Button>
-                  <div className="flex items-center justify-center">
-                    <MapPin className="h-5 w-5 text-primary" />
-                  </div>
-                  <Button size="sm" variant="outline" onClick={() => moveTourist('east')}>
-                    <Navigation className="h-4 w-4 rotate-90" />
-                  </Button>
-                  
-                  <div></div>
-                  <Button size="sm" variant="outline" onClick={() => moveTourist('south')}>
-                    <Navigation className="h-4 w-4 rotate-180" />
-                  </Button>
-                  <div></div>
+            {/* Movement Controls */}
+            <div className="flex justify-center">
+              <div className="grid grid-cols-3 gap-2 w-32">
+                <div></div>
+                <Button size="sm" variant="outline" onClick={() => moveTourist('north')}>
+                  <Navigation className="h-4 w-4 rotate-0" />
+                </Button>
+                <div></div>
+                
+                <Button size="sm" variant="outline" onClick={() => moveTourist('west')}>
+                  <Navigation className="h-4 w-4 -rotate-90" />
+                </Button>
+                <div className="flex items-center justify-center">
+                  <MapPin className="h-5 w-5 text-primary" />
                 </div>
+                <Button size="sm" variant="outline" onClick={() => moveTourist('east')}>
+                  <Navigation className="h-4 w-4 rotate-90" />
+                </Button>
+                
+                <div></div>
+                <Button size="sm" variant="outline" onClick={() => moveTourist('south')}>
+                  <Navigation className="h-4 w-4 rotate-180" />
+                </Button>
+                <div></div>
               </div>
             </div>
-          )}
+          </div>
         </CardContent>
       </Card>
 
