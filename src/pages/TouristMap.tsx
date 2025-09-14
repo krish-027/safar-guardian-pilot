@@ -11,7 +11,7 @@ import {
   Navigation,
   Zap
 } from 'lucide-react';
-import northeastMap from '@/assets/northeast-india-map.jpg';
+import userMap from '@/assets/user-map.png';
 import { getStoredData, setStoredData } from '@/lib/mockData';
 import { checkGeofenceViolation } from '@/lib/utils/geofence';
 import { Tourist, Alert as AlertType, GeofenceZone } from '@/types';
@@ -265,8 +265,8 @@ const TouristMap = () => {
           <div className="space-y-4">
             <div className="p-4 bg-muted rounded-lg">
               <img 
-                src={northeastMap} 
-                alt="Northeast India Map" 
+                src={userMap} 
+                alt="Map View" 
                 className="w-full h-auto rounded-lg shadow-md"
               />
             </div>
