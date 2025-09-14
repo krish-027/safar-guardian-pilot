@@ -11,6 +11,7 @@ import {
   Navigation,
   Zap
 } from 'lucide-react';
+import northeastMap from '@/assets/northeast-india-map.jpg';
 import { getStoredData, setStoredData } from '@/lib/mockData';
 import { checkGeofenceViolation } from '@/lib/utils/geofence';
 import { Tourist, Alert as AlertType, GeofenceZone } from '@/types';
@@ -261,6 +262,15 @@ const TouristMap = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
+          <div className="space-y-4">
+            <div className="p-4 bg-muted rounded-lg">
+              <img 
+                src={northeastMap} 
+                alt="Northeast India Map" 
+                className="w-full h-auto rounded-lg shadow-md"
+              />
+            </div>
+          </div>
           {showTokenInput ? (
             <div className="space-y-4 p-8 text-center">
               <div className="p-4 bg-muted rounded-lg">
