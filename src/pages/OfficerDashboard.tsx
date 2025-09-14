@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import userMap from '@/assets/user-map.png';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -150,25 +151,12 @@ const OfficerDashboard = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64 bg-muted rounded-lg relative map-container flex items-center justify-center">
-              <div className="text-center space-y-2">
-                <MapPin className="h-12 w-12 text-muted-foreground mx-auto" />
-                <p className="text-muted-foreground">Live Tourist Tracking Map</p>
-                <p className="text-sm text-muted-foreground">Himachal Pradesh with geofence zones</p>
-              </div>
-              
-              {/* Simulated tourist pins */}
-              <div className="absolute top-4 right-4 space-y-1">
-                {tourists.slice(0, 3).map((tourist, index) => (
-                  <div key={tourist.id} className="flex items-center space-x-2 bg-card p-1 rounded text-xs shadow">
-                    <div className={`w-2 h-2 rounded-full ${
-                      tourist.safetyScore >= 80 ? 'bg-success' :
-                      tourist.safetyScore >= 60 ? 'bg-warning' : 'bg-destructive'
-                    }`}></div>
-                    <span>{tourist.fullName}</span>
-                  </div>
-                ))}
-              </div>
+            <div className="h-64 bg-muted rounded-lg relative map-container">
+              <img 
+                src={userMap} 
+                alt="Live Tourist Tracking Map" 
+                className="w-full h-full object-cover rounded-lg"
+              />
             </div>
           </CardContent>
         </Card>
