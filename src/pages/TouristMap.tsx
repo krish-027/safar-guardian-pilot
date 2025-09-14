@@ -271,32 +271,6 @@ const TouristMap = () => {
               />
             </div>
 
-            {/* Movement Controls */}
-            <div className="flex justify-center">
-              <div className="grid grid-cols-3 gap-2 w-32">
-                <div></div>
-                <Button size="sm" variant="outline" onClick={() => moveTourist('north')}>
-                  <Navigation className="h-4 w-4 rotate-0" />
-                </Button>
-                <div></div>
-                
-                <Button size="sm" variant="outline" onClick={() => moveTourist('west')}>
-                  <Navigation className="h-4 w-4 -rotate-90" />
-                </Button>
-                <div className="flex items-center justify-center">
-                  <MapPin className="h-5 w-5 text-primary" />
-                </div>
-                <Button size="sm" variant="outline" onClick={() => moveTourist('east')}>
-                  <Navigation className="h-4 w-4 rotate-90" />
-                </Button>
-                
-                <div></div>
-                <Button size="sm" variant="outline" onClick={() => moveTourist('south')}>
-                  <Navigation className="h-4 w-4 rotate-180" />
-                </Button>
-                <div></div>
-              </div>
-            </div>
           </div>
         </CardContent>
       </Card>
