@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import userMap from '@/assets/user-map.png';
+import userMap from '@/assets/user-map.webp';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -30,6 +31,8 @@ const OfficerDashboard = () => {
     resolvedAlerts: 0
   });
   const [selectedTourist, setSelectedTourist] = useState<Tourist | null>(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     const touristsData = getStoredData<Tourist[]>('smart-safar-tourists', []);
@@ -51,6 +54,14 @@ const OfficerDashboard = () => {
       averageSafetyScore,
       resolvedAlerts
     });
+  }, []);
+
+  // Preload image for instant loading
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => setImageLoaded(true);
+    img.onerror = () => setImageError(true);
+    img.src = userMap;
   }, []);
 
   const [showEFirModal, setShowEFirModal] = useState(false);
@@ -152,11 +163,24 @@ const OfficerDashboard = () => {
           </CardHeader>
           <CardContent>
             <div className="h-64 bg-muted rounded-lg relative map-container">
-              <img 
-                src={userMap} 
-                alt="Live Tourist Tracking Map" 
-                className="w-full h-full object-cover rounded-lg"
-              />
+              {!imageLoaded && !imageError && (
+                <Skeleton className="w-full h-full rounded-lg" />
+              )}
+              {imageLoaded && (
+                <img 
+                  src={userMap} 
+                  alt="Live Tourist Tracking Map with real-time locations and safety zones"
+                  className="w-full h-full object-cover rounded-lg transition-opacity duration-300"
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
+                />
+              )}
+              {imageError && (
+                <div className="w-full h-full bg-muted rounded-lg flex items-center justify-center">
+                  <p className="text-muted-foreground">Map temporarily unavailable</p>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>

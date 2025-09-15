@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Skeleton } from '@/components/ui/skeleton';
 import { 
   MapPin, 
   AlertTriangle, 
@@ -11,7 +12,7 @@ import {
   Navigation,
   Zap
 } from 'lucide-react';
-import userMap from '@/assets/user-map.png';
+import userMap from '@/assets/user-map.webp';
 import { getStoredData, setStoredData } from '@/lib/mockData';
 import { checkGeofenceViolation } from '@/lib/utils/geofence';
 import { Tourist, Alert as AlertType, GeofenceZone } from '@/types';
@@ -26,6 +27,8 @@ const TouristMap = () => {
   const [isInRestrictedZone, setIsInRestrictedZone] = useState(false);
   const [mapboxToken, setMapboxToken] = useState('');
   const [showTokenInput, setShowTokenInput] = useState(true);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     let tourist = getStoredData<Tourist | null>('current-tourist', null);
@@ -56,6 +59,14 @@ const TouristMap = () => {
     setCurrentTourist(tourist);
     setTouristLocation(tourist.location);
     setGeofenceZones(zones);
+  }, []);
+
+  // Preload image for instant loading
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => setImageLoaded(true);
+    img.onerror = () => setImageError(true);
+    img.src = userMap;
   }, []);
 
   useEffect(() => {
@@ -263,14 +274,27 @@ const TouristMap = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <div className="p-4 bg-muted rounded-lg">
-              <img 
-                src={userMap} 
-                alt="Map View" 
-                className="w-full h-auto rounded-lg shadow-md"
-              />
+            <div className="p-4 bg-muted rounded-lg relative">
+              {!imageLoaded && !imageError && (
+                <Skeleton className="w-full h-64 rounded-lg" />
+              )}
+              {imageLoaded && (
+                <img 
+                  src={userMap} 
+                  alt="Northeast Safety Map showing tourist locations and geofence zones"
+                  className="w-full h-full object-cover rounded-lg shadow-md transition-opacity duration-300"
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
+                  style={{ minHeight: '256px' }}
+                />
+              )}
+              {imageError && (
+                <div className="w-full h-64 bg-muted rounded-lg flex items-center justify-center">
+                  <p className="text-muted-foreground">Map temporarily unavailable</p>
+                </div>
+              )}
             </div>
-
           </div>
         </CardContent>
       </Card>
