@@ -275,25 +275,15 @@ const TouristMap = () => {
         <CardContent>
           <div className="space-y-4">
             <div className="p-4 bg-muted rounded-lg relative">
-              {!imageLoaded && !imageError && (
-                <Skeleton className="w-full h-64 rounded-lg" />
-              )}
-              {imageLoaded && (
-                <img 
-                  src={userMap} 
-                  alt="Northeast Safety Map showing tourist locations and geofence zones"
-                  className="w-full h-full object-cover rounded-lg shadow-md transition-opacity duration-300"
-                  loading="eager"
-                  decoding="async"
-                  fetchPriority="high"
-                  style={{ minHeight: '256px' }}
-                />
-              )}
-              {imageError && (
-                <div className="w-full h-64 bg-muted rounded-lg flex items-center justify-center">
-                  <p className="text-muted-foreground">Map temporarily unavailable</p>
-                </div>
-              )}
+              <img 
+                src={userMap} 
+                alt="Northeast Safety Map showing tourist locations and geofence zones"
+                className="w-full h-full object-cover rounded-lg shadow-md"
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+                style={{ minHeight: '256px' }}
+              />
             </div>
           </div>
         </CardContent>

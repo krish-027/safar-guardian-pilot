@@ -163,24 +163,14 @@ const OfficerDashboard = () => {
           </CardHeader>
           <CardContent>
             <div className="h-64 bg-muted rounded-lg relative map-container">
-              {!imageLoaded && !imageError && (
-                <Skeleton className="w-full h-full rounded-lg" />
-              )}
-              {imageLoaded && (
-                <img 
-                  src={userMap} 
-                  alt="Live Tourist Tracking Map with real-time locations and safety zones"
-                  className="w-full h-full object-cover rounded-lg transition-opacity duration-300"
-                  loading="eager"
-                  decoding="async"
-                  fetchPriority="high"
-                />
-              )}
-              {imageError && (
-                <div className="w-full h-full bg-muted rounded-lg flex items-center justify-center">
-                  <p className="text-muted-foreground">Map temporarily unavailable</p>
-                </div>
-              )}
+              <img 
+                src={userMap} 
+                alt="Live Tourist Tracking Map with real-time locations and safety zones"
+                className="w-full h-full object-cover rounded-lg"
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+              />
             </div>
           </CardContent>
         </Card>
