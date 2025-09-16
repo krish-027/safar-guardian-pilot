@@ -31,8 +31,6 @@ const OfficerDashboard = () => {
     resolvedAlerts: 0
   });
   const [selectedTourist, setSelectedTourist] = useState<Tourist | null>(null);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     const touristsData = getStoredData<Tourist[]>('smart-safar-tourists', []);
@@ -56,13 +54,6 @@ const OfficerDashboard = () => {
     });
   }, []);
 
-  // Preload image for instant loading
-  useEffect(() => {
-    const img = new Image();
-    img.onload = () => setImageLoaded(true);
-    img.onerror = () => setImageError(true);
-    img.src = userMap;
-  }, []);
 
   const [showEFirModal, setShowEFirModal] = useState(false);
   const [selectedEFirTourist, setSelectedEFirTourist] = useState<Tourist | null>(null);

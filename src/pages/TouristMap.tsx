@@ -27,8 +27,6 @@ const TouristMap = () => {
   const [isInRestrictedZone, setIsInRestrictedZone] = useState(false);
   const [mapboxToken, setMapboxToken] = useState('');
   const [showTokenInput, setShowTokenInput] = useState(true);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     let tourist = getStoredData<Tourist | null>('current-tourist', null);
@@ -61,13 +59,6 @@ const TouristMap = () => {
     setGeofenceZones(zones);
   }, []);
 
-  // Preload image for instant loading
-  useEffect(() => {
-    const img = new Image();
-    img.onload = () => setImageLoaded(true);
-    img.onerror = () => setImageError(true);
-    img.src = userMap;
-  }, []);
 
   useEffect(() => {
     if (geofenceZones.length > 0) {
