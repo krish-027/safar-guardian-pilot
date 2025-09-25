@@ -5,7 +5,7 @@ import { Shield, User, MapPin, AlertTriangle } from 'lucide-react';
 import { initializeData } from '@/lib/mockData';
 
 const Layout = () => {
-  const [currentView, setCurrentView] = useState<'tourist' | 'officer'>('tourist');
+  const [currentView, setCurrentView] = useState('tourist');
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ const Layout = () => {
     }
   }, [location.pathname]);
 
-  const switchView = (view: 'tourist' | 'officer') => {
+  const switchView = (view) => {
     setCurrentView(view);
     if (view === 'tourist') {
       navigate('/');

@@ -10,22 +10,23 @@ import { Separator } from '@/components/ui/separator';
 import { CheckCircle, QrCode, Shield, Calendar, Phone, FileText } from 'lucide-react';
 import { getStoredData, setStoredData } from '@/lib/mockData';
 import { generateTouristHash } from '@/lib/utils/crypto';
-import { Tourist } from '@/types';
 import QRCode from 'qrcode';
+
 const TouristOnboarding = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState<'form' | 'digital-id'>('form');
-  const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
-  const [currentTourist, setCurrentTourist] = useState<Tourist | null>(null);
+  const [step, setStep] = useState('form');
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState('');
+  const [currentTourist, setCurrentTourist] = useState(null);
   const [formData, setFormData] = useState({
     fullName: '',
-    documentType: '' as 'aadhaar' | 'passport',
+    documentType: '',
     documentNumber: '',
     tripStartDate: '',
     tripEndDate: '',
     emergencyContact: ''
   });
-  const handleSubmit = async (e: React.FormEvent) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const timestamp = new Date().toISOString();
     const blockchainHash = generateTouristHash({
@@ -34,7 +35,8 @@ const TouristOnboarding = () => {
       documentNumber: formData.documentNumber,
       timestamp
     });
-    const tourist: Tourist = {
+
+    const tourist = {
       id: `tourist-${Date.now()}`,
       ...formData,
       safetyScore: 100,
@@ -65,18 +67,21 @@ const TouristOnboarding = () => {
     }
 
     // Store tourist data
-    const tourists = getStoredData<Tourist[]>('smart-safar-tourists', []);
+    const tourists = getStoredData('smart-safar-tourists', []);
     tourists.push(tourist);
     setStoredData('smart-safar-tourists', tourists);
     setStoredData('current-tourist', tourist);
     setCurrentTourist(tourist);
     setStep('digital-id');
   };
+
   const proceedToMap = () => {
     navigate('/map');
   };
+
   if (step === 'digital-id' && currentTourist) {
-    return <div className="max-w-2xl mx-auto space-y-6">
+    return (
+      <div className="max-w-2xl mx-auto space-y-6">
         <div className="text-center space-y-2">
           <CheckCircle className="h-12 w-12 text-success mx-auto" />
           <h1 className="text-2xl font-bold text-primary">Digital ID Generated Successfully</h1>
@@ -124,9 +129,11 @@ const TouristOnboarding = () => {
             <div className="flex justify-between items-center">
               <div className="text-center">
                 <Label className="text-white/80 block mb-2">QR Code</Label>
-                {qrCodeDataUrl && <div className="bg-white p-2 rounded">
+                {qrCodeDataUrl && (
+                  <div className="bg-white p-2 rounded">
                     <img src={qrCodeDataUrl} alt="QR Code" className="w-16 h-16" />
-                  </div>}
+                  </div>
+                )}
               </div>
               <div className="flex-1 ml-4">
                 <Label className="text-white/80 block mb-2">Blockchain Verification</Label>
@@ -150,9 +157,12 @@ const TouristOnboarding = () => {
             Your safety journey begins now. Monitor your location and stay within safe zones.
           </p>
         </div>
-      </div>;
+      </div>
+    );
   }
-  return <div className="max-w-lg mx-auto">
+
+  return (
+    <div className="max-w-lg mx-auto">
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="flex items-center justify-center space-x-2 text-primary">
@@ -165,18 +175,28 @@ const TouristOnboarding = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="fullName">Full Name</Label>
-              <Input id="fullName" type="text" value={formData.fullName} onChange={e => setFormData({
-              ...formData,
-              fullName: e.target.value
-            })} required placeholder="Enter your full name" />
+              <Input 
+                id="fullName" 
+                type="text" 
+                value={formData.fullName} 
+                onChange={e => setFormData({
+                  ...formData,
+                  fullName: e.target.value
+                })} 
+                required 
+                placeholder="Enter your full name" 
+              />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="documentType">Document Type</Label>
-              <Select value={formData.documentType} onValueChange={(value: 'aadhaar' | 'passport') => setFormData({
-              ...formData,
-              documentType: value
-            })}>
+              <Select 
+                value={formData.documentType} 
+                onValueChange={(value) => setFormData({
+                  ...formData,
+                  documentType: value
+                })}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select document type" />
                 </SelectTrigger>
@@ -189,35 +209,61 @@ const TouristOnboarding = () => {
 
             <div className="space-y-2">
               <Label htmlFor="documentNumber">Document Number</Label>
-              <Input id="documentNumber" type="text" value={formData.documentNumber} onChange={e => setFormData({
-              ...formData,
-              documentNumber: e.target.value
-            })} required placeholder="Enter document number" />
+              <Input 
+                id="documentNumber" 
+                type="text" 
+                value={formData.documentNumber} 
+                onChange={e => setFormData({
+                  ...formData,
+                  documentNumber: e.target.value
+                })} 
+                required 
+                placeholder="Enter document number" 
+              />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="tripStartDate">Trip Start Date</Label>
-                <Input id="tripStartDate" type="date" value={formData.tripStartDate} onChange={e => setFormData({
-                ...formData,
-                tripStartDate: e.target.value
-              })} required />
+                <Input 
+                  id="tripStartDate" 
+                  type="date" 
+                  value={formData.tripStartDate} 
+                  onChange={e => setFormData({
+                    ...formData,
+                    tripStartDate: e.target.value
+                  })} 
+                  required 
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="tripEndDate">Trip End Date</Label>
-                <Input id="tripEndDate" type="date" value={formData.tripEndDate} onChange={e => setFormData({
-                ...formData,
-                tripEndDate: e.target.value
-              })} required />
+                <Input 
+                  id="tripEndDate" 
+                  type="date" 
+                  value={formData.tripEndDate} 
+                  onChange={e => setFormData({
+                    ...formData,
+                    tripEndDate: e.target.value
+                  })} 
+                  required 
+                />
               </div>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="emergencyContact">Emergency Contact</Label>
-              <Input id="emergencyContact" type="tel" value={formData.emergencyContact} onChange={e => setFormData({
-              ...formData,
-              emergencyContact: e.target.value
-            })} required placeholder="+91-XXXXXXXXXX" />
+              <Input 
+                id="emergencyContact" 
+                type="tel" 
+                value={formData.emergencyContact} 
+                onChange={e => setFormData({
+                  ...formData,
+                  emergencyContact: e.target.value
+                })} 
+                required 
+                placeholder="+91-XXXXXXXXXX" 
+              />
             </div>
 
             <Button type="submit" className="w-full" variant="authority">
@@ -226,6 +272,8 @@ const TouristOnboarding = () => {
           </form>
         </CardContent>
       </Card>
-    </div>;
+    </div>
+  );
 };
+
 export default TouristOnboarding;

@@ -4,16 +4,15 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { AlertTriangle, Clock, MapPin, Zap, Shield } from 'lucide-react';
 import { getStoredData, setStoredData } from '@/lib/mockData';
-import { Alert as AlertType, Tourist } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 
 const TouristAlerts = () => {
   const { toast } = useToast();
-  const [alerts, setAlerts] = useState<AlertType[]>([]);
-  const [currentTourist, setCurrentTourist] = useState<Tourist | null>(null);
+  const [alerts, setAlerts] = useState([]);
+  const [currentTourist, setCurrentTourist] = useState(null);
 
   useEffect(() => {
-    let tourist = getStoredData<Tourist | null>('current-tourist', null);
+    let tourist = getStoredData('current-tourist', null);
     
     // If no tourist exists, create a mock one for demo
     if (!tourist) {
@@ -39,13 +38,13 @@ const TouristAlerts = () => {
     
     setCurrentTourist(tourist);
     
-    const allAlerts = getStoredData<AlertType[]>('smart-safar-alerts', []);
+    const allAlerts = getStoredData('smart-safar-alerts', []);
     // Filter alerts for current tourist
     const touristAlerts = allAlerts.filter(alert => alert.touristId === tourist.id);
     setAlerts(touristAlerts);
   }, []);
 
-  const simulateAlert = (type: 'geofence' | 'panic' | 'anomaly') => {
+  const simulateAlert = (type) => {
     if (!currentTourist) return;
 
     const alertTitles = {
@@ -60,7 +59,7 @@ const TouristAlerts = () => {
       anomaly: 'Irregular movement pattern detected'
     };
 
-    const newAlert: AlertType = {
+    const newAlert = {
       id: `alert-${Date.now()}`,
       touristId: currentTourist.id,
       type,
@@ -72,7 +71,7 @@ const TouristAlerts = () => {
       resolved: false
     };
 
-    const allAlerts = getStoredData<AlertType[]>('smart-safar-alerts', []);
+    const allAlerts = getStoredData('smart-safar-alerts', []);
     allAlerts.unshift(newAlert);
     setStoredData('smart-safar-alerts', allAlerts);
 
@@ -96,7 +95,7 @@ const TouristAlerts = () => {
     });
   };
 
-  const getAlertIcon = (type: AlertType['type']) => {
+  const getAlertIcon = (type) => {
     switch (type) {
       case 'geofence':
         return <MapPin className="h-4 w-4" />;
@@ -109,7 +108,7 @@ const TouristAlerts = () => {
     }
   };
 
-  const getSeverityColor = (severity: AlertType['severity']) => {
+  const getSeverityColor = (severity) => {
     switch (severity) {
       case 'high':
         return 'destructive';
@@ -122,7 +121,7 @@ const TouristAlerts = () => {
     }
   };
 
-  const formatTimestamp = (timestamp: string) => {
+  const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     return {
       date: date.toLocaleDateString(),

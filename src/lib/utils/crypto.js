@@ -1,15 +1,10 @@
 import CryptoJS from 'crypto-js';
 
-export const generateBlockchainHash = (data: string): string => {
+export const generateBlockchainHash = (data) => {
   return CryptoJS.SHA256(data).toString();
 };
 
-export const generateTouristHash = (tourist: {
-  fullName: string;
-  documentType: string;
-  documentNumber: string;
-  timestamp: string;
-}): string => {
+export const generateTouristHash = (tourist) => {
   const dataString = `${tourist.fullName}-${tourist.documentType}-${tourist.documentNumber}-${tourist.timestamp}`;
   return generateBlockchainHash(dataString);
 };

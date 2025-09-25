@@ -15,22 +15,21 @@ import {
 import userMap from '@/assets/user-map.webp';
 import { getStoredData, setStoredData } from '@/lib/mockData';
 import { checkGeofenceViolation } from '@/lib/utils/geofence';
-import { Tourist, Alert as AlertType, GeofenceZone } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 
 const TouristMap = () => {
   const { toast } = useToast();
-  const mapRef = useRef<HTMLDivElement>(null);
-  const [currentTourist, setCurrentTourist] = useState<Tourist | null>(null);
+  const mapRef = useRef(null);
+  const [currentTourist, setCurrentTourist] = useState(null);
   const [touristLocation, setTouristLocation] = useState({ lat: 31.1048, lng: 77.1734 });
-  const [geofenceZones, setGeofenceZones] = useState<GeofenceZone[]>([]);
+  const [geofenceZones, setGeofenceZones] = useState([]);
   const [isInRestrictedZone, setIsInRestrictedZone] = useState(false);
   const [mapboxToken, setMapboxToken] = useState('');
   const [showTokenInput, setShowTokenInput] = useState(true);
 
   useEffect(() => {
-    let tourist = getStoredData<Tourist | null>('current-tourist', null);
-    const zones = getStoredData<GeofenceZone[]>('smart-safar-geofences', []);
+    let tourist = getStoredData('current-tourist', null);
+    const zones = getStoredData('smart-safar-geofences', []);
     
     // If no tourist exists, create a mock one for demo
     if (!tourist) {
@@ -75,10 +74,10 @@ const TouristMap = () => {
     }
   }, [touristLocation, geofenceZones, currentTourist]);
 
-  const triggerGeofenceAlert = (zone: GeofenceZone) => {
+  const triggerGeofenceAlert = (zone) => {
     if (!currentTourist) return;
 
-    const alert: AlertType = {
+    const alert = {
       id: `alert-${Date.now()}`,
       touristId: currentTourist.id,
       type: 'geofence',
@@ -90,7 +89,7 @@ const TouristMap = () => {
       resolved: false
     };
 
-    const alerts = getStoredData<AlertType[]>('smart-safar-alerts', []);
+    const alerts = getStoredData('smart-safar-alerts', []);
     alerts.unshift(alert);
     setStoredData('smart-safar-alerts', alerts);
 
@@ -113,7 +112,7 @@ const TouristMap = () => {
   const triggerPanicAlert = () => {
     if (!currentTourist) return;
 
-    const alert: AlertType = {
+    const alert = {
       id: `alert-${Date.now()}`,
       touristId: currentTourist.id,
       type: 'panic',
@@ -125,7 +124,7 @@ const TouristMap = () => {
       resolved: false
     };
 
-    const alerts = getStoredData<AlertType[]>('smart-safar-alerts', []);
+    const alerts = getStoredData('smart-safar-alerts', []);
     alerts.unshift(alert);
     setStoredData('smart-safar-alerts', alerts);
 
@@ -145,7 +144,7 @@ const TouristMap = () => {
     });
   };
 
-  const moveTourist = (direction: 'north' | 'south' | 'east' | 'west') => {
+  const moveTourist = (direction) => {
     const delta = 0.01; // Approximately 1km
     let newLocation = { ...touristLocation };
 

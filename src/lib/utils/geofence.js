@@ -1,7 +1,5 @@
-import { GeofenceZone } from '@/types';
-
 // Point in polygon algorithm
-export const isPointInPolygon = (point: [number, number], polygon: [number, number][]): boolean => {
+export const isPointInPolygon = (point, polygon) => {
   const [x, y] = point;
   let inside = false;
   
@@ -17,11 +15,8 @@ export const isPointInPolygon = (point: [number, number], polygon: [number, numb
   return inside;
 };
 
-export const checkGeofenceViolation = (
-  location: { lat: number; lng: number },
-  zones: GeofenceZone[]
-): GeofenceZone | null => {
-  const point: [number, number] = [location.lng, location.lat];
+export const checkGeofenceViolation = (location, zones) => {
+  const point = [location.lng, location.lat];
   
   for (const zone of zones) {
     if (isPointInPolygon(point, zone.coordinates)) {
@@ -32,10 +27,7 @@ export const checkGeofenceViolation = (
   return null;
 };
 
-export const calculateDistance = (
-  point1: { lat: number; lng: number },
-  point2: { lat: number; lng: number }
-): number => {
+export const calculateDistance = (point1, point2) => {
   const R = 6371; // Earth's radius in kilometers
   const dLat = (point2.lat - point1.lat) * Math.PI / 180;
   const dLng = (point2.lng - point1.lng) * Math.PI / 180;

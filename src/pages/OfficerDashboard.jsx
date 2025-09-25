@@ -16,25 +16,24 @@ import {
   Eye
 } from 'lucide-react';
 import { getStoredData } from '@/lib/mockData';
-import { Tourist, Alert as AlertType, DashboardStats } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 
 
 const OfficerDashboard = () => {
   const { toast } = useToast();
-  const [tourists, setTourists] = useState<Tourist[]>([]);
-  const [alerts, setAlerts] = useState<AlertType[]>([]);
-  const [stats, setStats] = useState<DashboardStats>({
+  const [tourists, setTourists] = useState([]);
+  const [alerts, setAlerts] = useState([]);
+  const [stats, setStats] = useState({
     totalTourists: 0,
     activeAlerts: 0,
     averageSafetyScore: 0,
     resolvedAlerts: 0
   });
-  const [selectedTourist, setSelectedTourist] = useState<Tourist | null>(null);
+  const [selectedTourist, setSelectedTourist] = useState(null);
 
   useEffect(() => {
-    const touristsData = getStoredData<Tourist[]>('smart-safar-tourists', []);
-    const alertsData = getStoredData<AlertType[]>('smart-safar-alerts', []);
+    const touristsData = getStoredData('smart-safar-tourists', []);
+    const alertsData = getStoredData('smart-safar-alerts', []);
     
     setTourists(touristsData);
     setAlerts(alertsData);
@@ -56,18 +55,18 @@ const OfficerDashboard = () => {
 
 
   const [showEFirModal, setShowEFirModal] = useState(false);
-  const [selectedEFirTourist, setSelectedEFirTourist] = useState<Tourist | null>(null);
+  const [selectedEFirTourist, setSelectedEFirTourist] = useState(null);
 
-  const handleEFirClick = (tourist: Tourist) => {
+  const handleEFirClick = (tourist) => {
     setSelectedEFirTourist(tourist);
     setShowEFirModal(true);
   };
 
-  const getTouristAlerts = (touristId: string) => {
+  const getTouristAlerts = (touristId) => {
     return alerts.filter(alert => alert.touristId === touristId);
   };
 
-  const getAlertSeverityColor = (severity: string) => {
+  const getAlertSeverityColor = (severity) => {
     switch (severity) {
       case 'high': return 'destructive';
       case 'medium': return 'default';
@@ -373,7 +372,7 @@ const OfficerDashboard = () => {
   );
 };
 
-const Label = ({ children, className }: { children: React.ReactNode; className?: string }) => (
+const Label = ({ children, className }) => (
   <label className={className}>{children}</label>
 );
 

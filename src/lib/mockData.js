@@ -1,9 +1,7 @@
-import { Tourist, Alert, GeofenceZone } from '@/types';
-
 // Northeast India coordinates
 const NORTHEAST_CENTER = { lat: 26.2006, lng: 92.9376 };
 
-export const geofenceZones: GeofenceZone[] = [
+export const geofenceZones = [
   {
     id: 'zone-1',
     name: 'Kaziranga National Park - Restricted Area',
@@ -34,7 +32,7 @@ export const geofenceZones: GeofenceZone[] = [
   }
 ];
 
-export const mockTourists: Tourist[] = [
+export const mockTourists = [
   {
     id: 'tourist-1',
     fullName: 'Rajesh Kumar',
@@ -88,7 +86,7 @@ export const mockTourists: Tourist[] = [
   }
 ];
 
-export const mockAlerts: Alert[] = [
+export const mockAlerts = [
   {
     id: 'alert-1',
     touristId: 'tourist-1',
@@ -147,7 +145,7 @@ export const mockAlerts: Alert[] = [
 ];
 
 // localStorage utilities
-export const getStoredData = <T>(key: string, defaultValue: T): T => {
+export const getStoredData = (key, defaultValue) => {
   try {
     const stored = localStorage.getItem(key);
     return stored ? JSON.parse(stored) : defaultValue;
@@ -156,7 +154,7 @@ export const getStoredData = <T>(key: string, defaultValue: T): T => {
   }
 };
 
-export const setStoredData = <T>(key: string, data: T): void => {
+export const setStoredData = (key, data) => {
   try {
     localStorage.setItem(key, JSON.stringify(data));
   } catch (error) {
@@ -165,7 +163,7 @@ export const setStoredData = <T>(key: string, data: T): void => {
 };
 
 // Initialize data in localStorage
-export const initializeData = (): void => {
+export const initializeData = () => {
   if (!localStorage.getItem('smart-safar-tourists')) {
     setStoredData('smart-safar-tourists', mockTourists);
   }
